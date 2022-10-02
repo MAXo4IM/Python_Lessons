@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from unicodedata import name
 from termcolor import cprint
 from random import randint
 
@@ -82,7 +83,7 @@ class Husband(Man):
 
     def eat(self):
         if self.house.food >= 10:
-            cprint('{} поел'.format(self.name), color='green')
+            cprint('{} покушал'.format(self.name), color='green')
             self.fullness += 10
             self.house.food -= 10
             self.house.food_was_eaten += 10
@@ -149,7 +150,7 @@ class Wife(Man):
 
     def eat(self):
         if self.house.food >= 10:
-            cprint('{} поел(a)'.format(self.name), color='green')
+            cprint('{} покушал(a)'.format(self.name), color='green')
             self.fullness += 10
             self.house.food -= 10
             self.house.food_was_eaten += 10
@@ -232,6 +233,43 @@ class Wife(Man):
         else:
             self.talk_to_friends()
 
+class Child(Man):
+
+    def __init__(self, name):
+        self.name = name
+        self.hapiness = 100
+        self.fullness = 30
+        self.house = None
+
+    def __str__(self):
+        return super().__str__()
+
+    def go_into_the_house(self, house):
+        self.house = house
+        self.fullness -= 10
+        cprint('{} заехал в дом'.format(self.name), color='grey')
+
+    def eat(self):
+        cprint('{} покушал'.format(self.name), color='green')
+        self.fullness += 10
+        self.house.food_was_eaten += 10
+
+    def sleep(self):
+        cprint('{} спал целый день'.format(self.name), color='green')
+        self.fullness -= 10
+
+    def act(self):
+        if self.fullness < 0:
+            cprint('{} умер...'.format(self.name), color='red')
+            return
+        dice = randint(1, 6)
+        if self.fullness < 30:
+            self.eat()
+        elif dice == 1:
+            self.eat()
+        else:
+            self.sleep()
+
 class Cat:
 
     def __init__(self, name):
@@ -245,29 +283,29 @@ class Cat:
     def go_into_the_house(self, house):
         self.house = house
         self.fullness -= 10
-        cprint('{} заехал в дом'.format(self.name), color='grey')
+        cprint('Кот {} заехал в дом'.format(self.name), color='grey')
 
     def eat(self):
         if self.house.cats_food >= 20:
-            cprint('{} поел'.format(self.name), color='green')
+            cprint('Кот {} покушал'.format(self.name), color='green')
             self.fullness += 20
             self.house.cats_food -= 10
             self.house.food_was_eaten += 10
         else:
-            cprint('В доме нету еды для {}(a)'.format(self.name))
+            cprint('В доме нету еды для кота {}(a)'.format(self.name))
 
     def sleep(self):
-        cprint('{} проспал целый день zzz...'.format(self.name), color='green')
+        cprint('Кот {} проспал целый день zzz...'.format(self.name), color='green')
         self.fullness -= 10
 
     def tear_walls(self):
-        cprint('{} драл обои целый день'.format(self.name), color='green')
+        cprint('Кот {} драл обои целый день'.format(self.name), color='green')
         self.fullness -= 10
         self.house.dirty += 5
 
     def act(self):
         if self.fullness < 0:
-            cprint('{} умер...'.format(self.name), color='red')
+            cprint('Кот {} умер...'.format(self.name), color='red')
             return
         dice = randint(1, 6)
         if self.fullness <= 10:
@@ -283,10 +321,13 @@ class Cat:
 our_sweet_house = House()
 mark = Husband(name='Mark')
 alisa = Wife(name='Alisa')
+fred = Child(name='Fred')
 felix = Cat(name='Felix')
+
 
 mark.go_into_the_house(house = our_sweet_house)
 alisa.go_into_the_house(house = our_sweet_house)
+fred.go_into_the_house(house = our_sweet_house)
 felix.go_into_the_house(house=our_sweet_house)
 
 for day in range(1, 366):
@@ -294,9 +335,11 @@ for day in range(1, 366):
     our_sweet_house.dirty += 5
     mark.act()
     alisa.act()
+    fred.act()
     felix.act()
     cprint(mark, color='cyan')
     cprint(alisa, color='cyan')
+    cprint(fred, color='cyan')
     cprint(felix, color='cyan')
     cprint(our_sweet_house, color='cyan')
 cprint('За весь год было заработанно {} денег, сьеденно {} единиц еды и купленно {} шуб.'.format(
@@ -332,6 +375,8 @@ cprint('За весь год было заработанно {} денег, сь
 # ===== DONE(uper) =====
 
 
+# TODO после реализации второй части - отдать на проверку учителем две ветки
+
 ######################################################## Часть вторая бис
 #
 # После реализации первой части надо в ветке мастер продолжить работу над семьей - добавить ребенка
@@ -341,28 +386,13 @@ cprint('За весь год было заработанно {} денег, сь
 #   спать,
 #
 # отличия от взрослых - кушает максимум 10 единиц еды,
-# степень счастья  - не меняется, всегда ==100 ;)
+# степень счастья  - не меняется, всегда == 100 ;)
 
-class Child:
 
-    def __init__(self):
-        pass
-
-    def __str__(self):
-        return super().__str__()
-
-    def act(self):
-        pass
-
-    def eat(self):
-        pass
-
-    def sleep(self):
-        pass
+# ===== DONE(uper) =====
 
 
 # TODO после реализации второй части - отдать на проверку учителем две ветки
-
 
 ######################################################## Часть третья
 #
