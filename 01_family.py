@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from unicodedata import name
 from termcolor import cprint
 from random import randint
 
