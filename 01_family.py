@@ -116,7 +116,7 @@ class Husband(Man):
             self.eat()
         elif self.house.money <= 300:
             self.work()
-        elif self.hapiness <= 10:
+        elif self.hapiness < 10:
             self.gaming()
         elif dice == 1:
             self.eat()
@@ -201,6 +201,8 @@ class Wife(Man):
             self.shopping()
         elif self.house.dirty > 100:
             self.clean_house()
+        elif self.hapiness < 10:
+            self.talk_to_friends()
         elif dice == 1:
             self.eat()
         elif dice == 2:
