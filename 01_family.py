@@ -41,7 +41,6 @@ from random import randint
 #
 # Подвести итоги жизни за год: сколько было заработано денег, сколько сьедено еды, сколько куплено шуб.
 
-# ========== De sinhronizat Husband & Wife. Partile comune in Class "Man" ==========
 class House:
 
     def __init__(self):
@@ -66,6 +65,23 @@ class Man:
     def __str__(self):
         return 'Я - {}, сытность {}, счастья {}'.format(self.name, self.fullness, self.hapiness)
 
+    def pet_the_cat(self):
+        cprint('{} погладил(a) кота'.format(self.name))
+        self.hapiness += 5
+
+    def go_into_the_house(self):
+        self.fullness -= 10
+        cprint('{} заехал(a) в дом'.format(self.name), color='grey')
+
+    def eat(self):
+        if self.house.food >= 10:
+            cprint('{} покушал(a)'.format(self.name), color='green')
+            self.fullness += 10
+            self.house.food -= 10
+            self.house.food_was_eaten += 10
+        else:
+            cprint('В доме нет еды', color='grey')
+
 class Husband(Man):
 
     def __init__(self, name):
@@ -77,17 +93,10 @@ class Husband(Man):
 
     def go_into_the_house(self, house):
         self.house = house
-        self.fullness -= 10
-        cprint('{} заехал в дом'.format(self.name), color='grey')
+        super().go_into_the_house()
 
     def eat(self):
-        if self.house.food >= 10:
-            cprint('{} покушал'.format(self.name), color='green')
-            self.fullness += 10
-            self.house.food -= 10
-            self.house.food_was_eaten += 10
-        else:
-            cprint('В доме нет еды', color='grey')
+        super().eat()
 
     def work(self):
         cprint('{} сходил на работу'.format(self.name), color='magenta')
@@ -104,8 +113,7 @@ class Husband(Man):
             self.hapiness += 20
     
     def pet_the_cat(self):
-        cprint('{} погладил кота'.format(self.name))
-        self.hapiness += 5
+        super().pet_the_cat()
 
 
     def act(self):
@@ -144,17 +152,10 @@ class Wife(Man):
 
     def go_into_the_house(self, house):
         self.house = house
-        self.fullness -= 10
-        cprint('{} заехал(a) в дом'.format(self.name), color='grey')
+        super().go_into_the_house()
 
     def eat(self):
-        if self.house.food >= 10:
-            cprint('{} покушал(a)'.format(self.name), color='green')
-            self.fullness += 10
-            self.house.food -= 10
-            self.house.food_was_eaten += 10
-        else:
-            cprint('В доме нет еды', color='grey')
+        super().eat()
 
     def shopping(self):
         if self.house.money >= 50:
@@ -193,8 +194,7 @@ class Wife(Man):
             cprint('В досе нету денег для кошачей еды', color='red')
 
     def pet_the_cat(self):
-        cprint('{} погладил кота'.format(self.name))
-        self.hapiness += 5
+        super().pet_the_cat()
 
     def talk_to_friends(self):
         cprint('{} разговаривал(a) с друзьями'.format(self.name), color='grey')
@@ -245,8 +245,7 @@ class Child(Man):
 
     def go_into_the_house(self, house):
         self.house = house
-        self.fullness -= 10
-        cprint('{} заехал в дом'.format(self.name), color='grey')
+        super().go_into_the_house()
 
     def eat(self):
         cprint('{} покушал'.format(self.name), color='green')
@@ -317,30 +316,29 @@ class Cat:
             self.sleep()
 
 
-our_sweet_house = House()
 mark = Husband(name='Mark')
 alisa = Wife(name='Alisa')
 fred = Child(name='Fred')
 felix = Cat(name='Felix')
 
+citizens = [
+    mark,
+    alisa,
+    fred,
+    felix,
+]
 
-mark.go_into_the_house(house = our_sweet_house)
-alisa.go_into_the_house(house = our_sweet_house)
-fred.go_into_the_house(house = our_sweet_house)
-felix.go_into_the_house(house=our_sweet_house)
+our_sweet_house = House()
+for citizen in citizens:
+    citizen.go_into_the_house(house=our_sweet_house)
 
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='yellow')
     our_sweet_house.dirty += 5
-    mark.act()
-    alisa.act()
-    fred.act()
-    felix.act()
-    cprint(mark, color='cyan')
-    cprint(alisa, color='cyan')
-    cprint(fred, color='cyan')
-    cprint(felix, color='cyan')
-    cprint(our_sweet_house, color='cyan')
+    for citizen in citizens:
+        citizen.act()
+    for citizen in citizens:
+        cprint(citizen, color='cyan')
 cprint('За весь год было заработанно {} денег, сьеденно {} единиц еды и купленно {} шуб.'.format(
     our_sweet_house.money_was_earned, our_sweet_house.food_was_eaten, our_sweet_house.coats_were_bought), color='yellow')
 
