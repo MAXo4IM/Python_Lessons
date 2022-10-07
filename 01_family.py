@@ -202,7 +202,7 @@ class Wife(Man):
         if self.hapiness > 90:
             pass
         else:
-            self.hapiness += 10
+            self.hapiness += 20
 
     def act(self):
         if self.fullness < 0:
@@ -320,12 +320,17 @@ mark = Husband(name='Mark')
 alisa = Wife(name='Alisa')
 fred = Child(name='Fred')
 felix = Cat(name='Felix')
+marcus = Cat(name='Marcus')
+grealish = Cat(name='Grealish')
+
 
 citizens = [
     mark,
     alisa,
     fred,
     felix,
+    marcus,
+    grealish,
 ]
 
 our_sweet_house = House()
