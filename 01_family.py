@@ -88,15 +88,9 @@ class Husband(Man):
         self.name = name
         super().__init__()
 
-    def __str__(self):
-        return super().__str__()
-
     def go_into_the_house(self, house):
         self.house = house
         super().go_into_the_house()
-
-    def eat(self):
-        super().eat()
 
     def work(self):
         cprint('{} сходил на работу'.format(self.name), color='magenta')
@@ -111,9 +105,6 @@ class Husband(Man):
             pass
         else:
             self.hapiness += 20
-    
-    def pet_the_cat(self):
-        super().pet_the_cat()
 
 
     def act(self):
@@ -147,15 +138,9 @@ class Wife(Man):
         self.name = name
         super().__init__()
 
-    def __str__(self):
-        return super().__str__()
-
     def go_into_the_house(self, house):
         self.house = house
         super().go_into_the_house()
-
-    def eat(self):
-        super().eat()
 
     def shopping(self):
         if self.house.money >= 50:
@@ -192,9 +177,6 @@ class Wife(Man):
             self.house.cats_food += 50
         else:
             cprint('В досе нету денег для кошачей еды', color='red')
-
-    def pet_the_cat(self):
-        super().pet_the_cat()
 
     def talk_to_friends(self):
         cprint('{} разговаривал(a) с друзьями'.format(self.name), color='grey')
