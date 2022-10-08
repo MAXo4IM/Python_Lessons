@@ -57,7 +57,8 @@ class House:
             self.food, self.money, self.dirty)
 
 class Man:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.fullness = 30
         self.hapiness = 100
         self.house = None
@@ -85,8 +86,7 @@ class Man:
 class Husband(Man):
 
     def __init__(self, name):
-        self.name = name
-        super().__init__()
+        super().__init__(name=name)
 
     def go_into_the_house(self, house):
         self.house = house
@@ -135,8 +135,7 @@ class Husband(Man):
 class Wife(Man):
 
     def __init__(self, name):
-        self.name = name
-        super().__init__()
+        super().__init__(name=name)
 
     def go_into_the_house(self, house):
         self.house = house
